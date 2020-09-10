@@ -103,5 +103,5 @@ print(resultado_cuota_anual)
 resultado_cuota_mensual = resultado_cuota_anual / 12
 print(resultado_cuota_mensual)
 
-#nota: el cliente debe abonar una cuota de DOP$ 2,142.44 mensuales, pagadero en 60 (o 5 años) contribuciones cada mes, al 9% anual
+#Nota: el cliente debe abonar una cuota de DOP$ 2,142.44 mensuales, pagadero en 60 (o 5 años) contribuciones cada mes, al 9% anual
 #... con la finalidad de amortizar un prestamo tomado de DOP$ 100,000.00 (según resultados de fórmula Amortización sistema francés)
