@@ -10,4 +10,4 @@ userno3 = input("Ingreso un ultimo numero")
 c = userno1, userno2, userno3
 print(c)
 suma= (userno1+userno2+userno3)
-print(str(suma))
+print(str(suma))  p
