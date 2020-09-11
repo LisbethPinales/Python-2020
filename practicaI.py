@@ -1,4 +1,5 @@
-#Practica_1 
+#Practica_1 --- Lisbeth Pinales Mora
+
 #Ejercicio_1 = Escriba en pantalla el tipo de dato que retorna la expresión 4 < 2
 result = 4<2
 print(result)
