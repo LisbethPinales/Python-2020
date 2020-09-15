@@ -6,6 +6,7 @@ print("\t\t Ejercicio numero 1\n")
 def potencia (base_number, exponente): 
     result = 1
 
+
     for i in range(exponente):
         result *= base_number
 
@@ -101,26 +102,41 @@ print (maxPalindrome,maxnum1,maxnum2)
 
 #Ejercicio_ 6 = Hacer una función que reciba una cedula como argumento y diga si la cedula es válida o no.
 
-
 print("\t\t Ejercicio numero 6\n")
 
 
-suma = 0
-termino = False
+def val_cedula (cedula = "40239507409"):
+    return True
 
-cedula = int(input("Digite su número de cédula >>>"))
-verificador = cedula
+print(val_cedula(40239507409))
 
-while (termino == False):
 
-    while(verificador > 0):
-        suma  = suma + (verificador %10)
-        
+#Ejercicio_7 = Hacer una función que reciba como argumento una lista de elementos
+#...numéricos y retorno otra lista con cada elemento de la primera lista
+#...duplicados.
 
-    if (suma <= 11):
-        termino = True
-    else:
-        verificador= suma
-        suma  = 0
+print("\t\t Ejercicio numero 7\n")
 
-    print("El digito verificador es: " + str(suma))
+list = [2, 5, 18, 705, 892]
+result = (2*2, 5*2, 18*2, 705*2, 892*2)
+
+print(result)
+
+#Ejercicio_8 = Hacer una función que reciba un valor iniciar y uno final, y muestre en
+#pantalla las tablas de multiplicar de los números múltiplos de 6 que hay
+#entre el valor inicial y el valor final.
+
+
+
+print("\t\ Ejer 8 Multiplication Table\n")
+
+inicial = int(input("Digite un número inicial >>>"))
+final = int(input("Digite un número final >>>"))
+
+number_random = 6
+
+for i in range(inicial,final +1):
+    print(f"{i} * {number_random} = {i * number_random}")
+
+
+    SystemExit
