@@ -1,6 +1,8 @@
 #Practica_III ---- Lisbeth Pinales Mora
 #Ejercicio_1 = Hacer una función que potencie un número x a la y
 
+print("\t\t Ejercicio numero 1\n")
+
 def potencia (base_number, exponente): 
     result = 1
 
@@ -15,6 +17,8 @@ print(potencia(3,3))
 print(potencia(3,5))
 
 #Ejercicio_2 = Realizar una función que pida por pantalla un número del 1 al 10 y muestre por pantalla el número escrito en letras.
+
+print("\t\t Ejercicio numero 2\n")
 
 def convert_number_toletters (toletters):
 
@@ -39,6 +43,8 @@ print(convert_number_toletters(54))
 
 #Ejercicio_3 = Hacer una función que reciba un año como argumento y retorne verdadero si es bisiesto.
 
+print("\t\t Ejercicio numero3\n")
+
 def bisi (year): 
     if year %400 == 0:
         return True
@@ -57,6 +63,8 @@ print("¿Es cierto que año %i es bisiesto?: %s " % (year, bisi (year)))
 
 #Ejercicio_4 = Crear una función que evalúe dos números y retorne verdadero si ambos números son iguales.
 
+print("\t\t Ejercicio numero 4\n")
+
 def no_iguales (numero_cualquiera, otro_numero):
     if numero_cualquiera == otro_numero:
         return True
@@ -72,16 +80,47 @@ print(no_iguales(5,5))
 # Cree una función que encuentre el palíndromo más grande hecho del
 # producto de dos números de 3 dígitos.
 
+print("\t\t Ejercicio numero 5\n")
 
+def esPalindrom(numero):
+    if str(numero)==str(numero)[::-1]:
+        return True
+    else:
+        return False
+maxPalindrome=1
+for numero1 in range(100,999):
+    for numero2 in range(100,999):
+        producto=numero1*numero2  
+        if esPalindrom(producto):
+            if producto>maxPalindrome:
+                maxPalindrome=producto
+                maxnum1=numero1
+                maxnum2=numero2
+
+print (maxPalindrome,maxnum1,maxnum2)
 
 #Ejercicio_ 6 = Hacer una función que reciba una cedula como argumento y diga si la cedula es válida o no.
 
 
-def digito_id(id):
-    if id  == "402":
-        return True
-    else:
-        return False
-   
+print("\t\t Ejercicio numero 6\n")
 
-print(digito_id(402))
+
+suma = 0
+termino = False
+
+cedula = int(input("Digite su número de cédula >>>"))
+verificador = cedula
+
+while (termino == False):
+
+    while(verificador > 0):
+        suma  = suma + (verificador %10)
+        
+
+    if (suma <= 11):
+        termino = True
+    else:
+        verificador= suma
+        suma  = 0
+
+    print("El digito verificador es: " + str(suma))
