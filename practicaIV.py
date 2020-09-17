@@ -80,11 +80,35 @@ Division.mostrar_operaciones(">>> División: Es una operación binaria que a dos
 print("\t\t Ejercicio de Herencia Python >>>\n")
 
 class Personaje:
-    def __init__(self):
+    def __init__(self, MoverArriba, MoverAbajo, MoverDerecha, MoverIzquierda):
         self.MoverArriba ="MoverArriba"
         self.MoverAbajo ="MoverAbajo"
         self.MoverDerecha ="MoverDerecha" 
         self.MoverIzquierda ="MoverIzquierda" 
 
-class Mario:
-    
+class Mario(Personaje):
+    def hablar (self, mensaje):
+        print ("Hola, mi nombre es Mario", mensaje)
+
+class Koopa (Personaje):
+    def __init__(self, MoverArriba, MoverAbajo, MoverDerecha, MoverIzquierda):
+       return Personaje
+
+
+#Ejercicio_5 =Cree una clase Carro, con un campo llamado _cantidadCombustible y un
+#método que se llame Encender el cual en base a la gasolina disponible
+#mostrara si el carro pudo o no avanzar. Cada vez que el método se ejecute,
+#deberá restarse 1 a la gasolina disponible. La cantidad de gasolina debe
+#establecerse al momento de instanciar un objeto de del tipo de la clase.
+
+print("\t\t Clase Carro >>>\n")
+
+encender = input("Ingrese cuantos galones de combustible tiene su vehiculo >>>")
+
+class Carro:
+    def __init__(self, encender):
+        self.encender >= 1
+        print ("El carro puede encender", encender)
+
+        if encender == 0:
+            print ("No combustible, visite la gasolineria mas cercana")
