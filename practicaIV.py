@@ -1,4 +1,6 @@
 #Practica_IV ---- Lisbeth Pinales Mora
+
+
 #Ejercicio_1 = Modele tres entidades del mundo real, colocar por lo menos 3
 # características distintivas
 
@@ -112,3 +114,5 @@ class Carro:
 
         if encender == 0:
             print ("No combustible, visite la gasolineria mas cercana")
+
+    SystemExit
