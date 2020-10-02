@@ -36,7 +36,7 @@ class Contacto:
         self.empresa = empresa
 class Agenda:
     def __init__(self):
-        self.contactos=[]
+        self.contactos= []               
     def ordernarNombre (self):
         self.contactos.sort(key=lambda contacto: contacto.nombre)
     def añadir (self, nombre, telefono, empresa):
@@ -63,7 +63,7 @@ class Agenda:
                 opcion = str(input(""))
                 if opcion== "s" or opcion== "S":
                     print(" >>> Contacto eliminado exitosamente")
-                    del self.contactos(codigo)
+                    del self.contactos[codigo]
                 elif opcion  == "n" or opcion=="N":
                     break
     def modificar(self,codigo):
@@ -153,12 +153,12 @@ def menu():
             agenda.grabar()
          elif menu== "0":
             print("Hasta pronto")
-            agrenda.grabar()
+            agenda.grabar()
             break
          else:
             print("Opcion no valida")
-if __name__=="__main__":
-    ejecutar()
+         if __name__ ==  "main":
+            ejecutar()
 
 
 
