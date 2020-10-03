@@ -67,7 +67,7 @@ class Agenda:
                 elif opcion  == "n" or opcion=="N":
                     break
     def modificar(self,codigo):
-        for contacto in self.contacto:
+        for contacto in self.contactos:
             if contacto.codigo ==codigo:
                 del self.contactos[codigo]
                 nombre= str(input("Digite el nombre >>> "))
@@ -94,6 +94,7 @@ class Agenda:
               opcion= str(input(""))
               if opcion == "n" or opcion == "N":
                   self.ordernarNombre()
+            
                 
     def modificar_contacto(self):
         with open("miagenda.csv", "w") as fichero:
@@ -115,16 +116,16 @@ class Agenda:
         print("Contacto no encontrado >>>")
         print("---*---*----*")
          
-    def ejecutar():
-         agenda =Agenda()
-         try:
-             with open("miagenda.csv", "r") as fichero:
-                 lector = csv.DictReader(fichero, delimiter="," )
-                 for fila in lector:
-                     agenda.añadir(fila["nombre"].capitalize(), fila["telefono"])
+def ejecutar():
+    agenda =Agenda()
+    try:
+        with open("miagenda.csv", "r") as fichero:
+            lector = csv.DictReader(fichero, delimiter="," )
+            for fila in lector:
+                agenda.añadir(fila["nombre"].capitalize(), fila["telefono"])
 
-         except:
-             print("Error al abrir el fichero >>> ")
+    except:
+        print("Error al abrir el fichero >>> ")
     
 def menu():
     opcion = 0
@@ -137,35 +138,27 @@ def menu():
          print("5. Eliminar contacto agregado")
          print("6. Salir de menú")
          opcion = int(input("Seleccione una opcion >>> "))
-         clear()
+         
 
-         if menu == "1":
-            agenda.mostrarTodos()
-         elif menu == "2":
-            texto = str(input("Escribe el texto a buscar en contactos >>> "))
-            agenda.buscar(texto.capitalize())
-            agenda.modificar_contacto()
-         elif menu== "3":
-            nombre= str(input("Digite el nombre: >>> "))
-            telefono= str(input("Digite el número telefonico: >>> "))
-            empresa= str(input("Digite su compañia o empresa movil: >>> "))
-            agenda.añadir(nombre.capitalize(),telefono.capitalize(), empresa.capitalize())
-            agenda.grabar()
-         elif menu== "0":
-            print("Hasta pronto")
-            agenda.grabar()
-            break
-         else:
-            print("Opcion no valida")
-         if __name__ ==  "main":
-            ejecutar()
+if menu=="1":
+    Agenda.mostrarTodos()
+elif menu == "2":
+    texto = str(input("Escribe el texto a buscar en contactos >>> "))
+    Agenda.buscar(texto.capitalize())
+    Agenda.modificar_contacto()
+elif menu== "3":
+    nombre= str(input("Digite el nombre: >>> "))
+    telefono= str(input("Digite el número telefonico: >>> "))
+    empresa= str(input("Digite su compañia o empresa movil: >>> "))
+    Agenda.añadir(nombre.capitalize(),telefono.capitalize(), empresa.capitalize())
+           
+elif menu== "0":
+    print("Hasta pronto") 
+    
 
+else:
+    print("Opcion no valida")
+    break
 
-
-
-
-
-
-
-
-
+if __name__ ==  "main":
+    ejecutar()
