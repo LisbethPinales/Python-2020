@@ -1,19 +1,7 @@
-# TRABAJO FINAL - Hacer un programa que funcione como agenda telefónica
+#Grupo 3:
+#Lisbeth Pinales
+#Luis Mercedes
 
-# El programa debe precargar 10 contactos al iniciar.
-
-# Al iniciar el programa el usuario debe tener opciones que le permitan agregar, buscar,
-#... actualizar y borrar un contacto. También una opción que le permita listar todos los contactos.
-
-#Cada contacto debe tener al menos 3 campos Id, nombre y teléfono. (puede agregar todos los que quiera)
-
-#El programa debe permitir buscar por id y por nombre.
-
-#Cuando elija agregar contacto debe de pedir si desea agregar otro.
-
-#Después de cada opción debe volver al menú.
-
-#El programa solo terminara cuando el usuario elija salir.
 
 
 import csv
@@ -25,140 +13,267 @@ conn = sqlite3.connect("miagenda.db")
 cursor= conn.cursor()
 conn.close()
 
-#clases
-
-class Contacto:
-    nuevoId = itertools.count()
-    def __init__(self,nombre,telefono,empresa):
-        self.codigo = next(self.nuevoId)
-        self.nombre = nombre
-        self.telefono = telefono
-        self.empresa = empresa
-class Agenda:
+class connexionDB:
     def __init__(self):
-        self.contactos= []               
-    def ordernarNombre (self):
-        self.contactos.sort(key=lambda contacto: contacto.nombre)
-    def añadir (self, nombre, telefono, empresa):
-        contacto = Contacto (nombre, telefono, empresa)
-        self.contactos.append(contacto)
-    def mostrarTodos(self):
-        self.submenuOrden()
-        for contacto in self.contactos:
-            self.imprimeContacto(contacto)
-    def buscar(self, textoBuscar):
-        encontrado = 0
-        for contacto in self.contactos:
-            if(re.findall(textoBuscar,contacto.nombre)) or (re.findall(textoBuscar, contacto.codigo)):
-                self.imprimeContacto(contacto)
-                encontrado =encontrado + 1
-                self.submenuBuscar(contacto.codigo)
-        if encontrado  == 0:
-            self.noEncontrado()
-    def borrar(self,codigo):
-        for contacto in self.contactos:
-            if contacto.codigo  == codigo:
-                print(" >>> ¿Desea borrar el contacto? (s/n)")
-                print("---*---*----*")
-                opcion = str(input(""))
-                if opcion== "s" or opcion== "S":
-                    print(" >>> Contacto eliminado exitosamente")
-                    del self.contactos[codigo]
-                elif opcion  == "n" or opcion=="N":
-                    break
-    def modificar(self,codigo):
-        for contacto in self.contactos:
-            if contacto.codigo ==codigo:
-                del self.contactos[codigo]
-                nombre= str(input("Digite el nombre >>> "))
-                telefono= str(input("Digite el número telefonico >>> "))
-                empresa= str(input("Digite su compañia o empresa movil >>> "))
-                Contacto = Contacto(nombre.capitalize(),telefono.capitalize(),empresa.capitalize())
-                self.contactos.append(contacto)
-                break
-    def submenuBuscar (self,codigo):
-        print("---*---*----*")
-        print(" ¿Quieres modificar el contacto o desea borrarlo? >>>")
-        print("---*---*----*")
-        opcion=str(input(""))
-        if opcion == "n" or opcion== "N":
-            self.modificar(codigo)
-        elif opcion== "b" or opcion == "B":
-            self.borrar(codigo)
-        else:
-            print("Continuamos sin realizar ninguna modificacion")
-    def submenuOrden(self):
-              print("---*---*----*")
-              print("¿Quieres ordenar por nombre o por código? >>> ")
-              print("---*---*----*")
-              opcion= str(input(""))
-              if opcion == "n" or opcion == "N":
-                  self.ordernarNombre()
-            
-                
-    def modificar_contacto(self):
-        with open("miagenda.csv", "w") as fichero:
-            escribir=csv.writer(fichero)
-            escribir.writerow(("codigo", "nombre","telefono", "empresa"))
-            for contacto in self.contactos:
-                escribir.writerow((contacto.codigo, contacto.nombre, contacto.telefono, contacto.empresa))
+        conexion = mysql.connector.connect(
+            host = "localhost",
+            user = "root",
+            password = "melenciano1629",
+            db= "agenda"
 
-    def imprimeContacto (self, contacto):
-        print("---*---*----*")
-        print("---*---*----")
-        print("Codigo: {}". format(contacto.codigo))
-        print("Nombre: {} ". format(contacto.nombre))
-        print("Telefono: {}". format (contacto.telefono))
-        print("Empresa:{} ". format (contacto.empresa))
-        print("---*---*----")
-    def noEncontrado(self):
-        print("---*---*----*")
-        print("Contacto no encontrado >>>")
-        print("---*---*----*")
-         
-def ejecutar():
-    agenda =Agenda()
-    try:
-        with open("miagenda.csv", "r") as fichero:
-            lector = csv.DictReader(fichero, delimiter="," )
-            for fila in lector:
-                agenda.añadir(fila["nombre"].capitalize(), fila["telefono"])
+        )
 
-    except:
-        print("Error al abrir el fichero >>> ")
-    
-def menu():
-    opcion = 0
-    while opcion != 6:
-         print("\t>>>Bienvenido a su agenda telefonica\n")
-         print("1. Agregar nuevo contacto")
-         print("2. Listar todos los contactos")
-         print("3. Buscar contacto agregado")
-         print("4. Actualizar contactos agregados")
-         print("5. Eliminar contacto agregado")
-         print("6. Salir de menú")
-         opcion = int(input("Seleccione una opcion >>> "))
-         
+        self.cursor = conexion.cursor()
 
-if menu=="1":
-    Agenda.mostrarTodos()
-elif menu == "2":
-    texto = str(input("Escribe el texto a buscar en contactos >>> "))
-    Agenda.buscar(texto.capitalize())
-    Agenda.modificar_contacto()
-elif menu== "3":
-    nombre= str(input("Digite el nombre: >>> "))
-    telefono= str(input("Digite el número telefonico: >>> "))
-    empresa= str(input("Digite su compañia o empresa movil: >>> "))
-    Agenda.añadir(nombre.capitalize(),telefono.capitalize(), empresa.capitalize())
+
+    def Agregar(self,nombre,telefono,compañia,direccion):
+
+          sql = "INSERT INTO contacto (nombre,telefono,compañia,direccion) VALUES ('{}','{}','{}','{}')".format(nombre,telefono,compañia,direccion)
+
+          try:
+              self.cursos.execute(sql) 
+              cout = self.cursor.rowcount
+              self.conexion.commit()
+
+              return cout
+              self.cursor.close()
+              self.conexion.close()
+             
+
+          except Exception as err:
+              self.conexion.rollback()
+              return err
+
+
+    def registro_repetido(self,nombre,telefono):
+
+         sql = "SELECT * FROM contacto WHERE nombre = '{}' AND telefono = '{}'".format(nombre,telefono)
+
+         self.cursor.execute(sql)
+         count = self.cursor.fetchall
+
+         if count == 0:
+             print("El nombre o el telefono ya existe.!!!")
+             return 1
+         else:
+             return 0 
+
            
-elif menu== "0":
-    print("Hasta pronto") 
-    
 
-else:
-    print("Opcion no valida")
-    break
+     #Metodo listar todos los contactos
+    def listar_contactos(self):
+         sql = 'SELECT idcod,nombre,apellido,telefono,direccion FROM contacto'
 
-if __name__ ==  "main":
-    ejecutar()
+         try:
+             self.cursos.execute(sql)
+             contacto = self.cursor.fetchall()
+
+             for mostrar in contacto:
+                 print('ID:', mostrar[0])
+                 print('Nombre:', mostrar[1])
+                 print('telefono:', mostrar[2])
+                 print('compañia:', mostrar[3])
+                 print('Direccion:', mostrar[4])
+                 print('----------\n')
+
+
+         except Exception as err:
+             return err
+
+
+
+
+    def welcome_registro(self):
+
+         sql = " SELECT * FROM contactos LIMIT 10"
+
+         try:
+             self.cursor.execute(sql)
+             contacto = self.cursor.fetchall()
+
+
+             for mostrar in contacto:
+                 print('ID:', mostrar[0])
+                 print('Nombre:', mostrar[1])
+                 print('telefono:', mostrar[2])
+                 print('compañia:', mostrar[3])
+                 print('Direccion:', mostrar[4])
+                 print('----------\n')
+            
+             return True
+         
+             self.cursor.close()
+             self.conexion.close()
+             
+
+         except Exception as err:
+             return err
+
+     #Metodo mostrar
+    def Mostrar(self,id):
+
+         sql= "SELECT id, nombre,telefono,compañia, direccion FROM contacto WHERE id = '{}' ".format(id)
+
+         try:
+
+            self.cursos.execute(sql)
+            contacto = self.cursos.fetchone()
+
+            print('ID:', contacto[0])
+            print('Nombre:', contacto[1])
+            print('Apellido:', contacto[2])
+            print('Telefono:', contacto[3])
+            print('Direccion:', contacto[4])
+            self.cursor.close()
+            self.conexion.close()
+            return True
+
+
+
+         except Exception as err:
+             self.conexion.rollback()
+             print("EL ID no es valido")
+             return err
+            
+
+
+
+     #metodo Actualizar
+    def Actualizar(self,nombre,telefono,idcod):
+         sql = "UPDATE contacto SET nombre = '{}' AND  telefono = '{}'  WHERE id = '{}' ".format(nombre, telefono, idcod)
+         try:
+
+             self.cursor.execute(sql)
+             self.conexion.commit()
+             print("El registro se actualizo correctamente")
+          
+             self.cursor.close()
+             self.conexion.close()
+
+         except Exception as err:
+             self.conexion.rollback()
+             return err
+
+             
+
+
+     #metodo eliminar
+    def Eliminar(self,codigoid):
+
+         sql = " DELETE FROM cursor WHERE id = {}".format(codigoid)
+
+         try:
+             self.cursor.execute(sql)
+             self.conexion.commit()
+             print('EL REGISTRO SE HA ELIMINADO CORRECTAMENTE!!!')
+             return True
+         
+             self.cursor.close()
+             self.conexion.close()
+             
+
+         except Exception as err:
+             self.conexion.rollback()
+             print('EL REGISTRO NO SE PUDO ELIMINAR!!!')
+             return err
+
+
+from conexionMySQL import connexionDB
+
+
+#Funcion de menu principal.
+def menu_principal():
+
+     opcion = 0
+     while opcion != 6:
+         print('\tWELCOME AGENDA TELEFONICA\n')
+
+         print('1.AGREGAR NUEVO CONTACTO.')
+         print('2.MOSTRAR TODOS LOS CONTACTOS.')
+         print('3.BUSCAR CONTACTO.')
+         print('4.ACTUALIZAR CONTACTO.')
+         print('5.ELIMINAR UN CONTACTO.')
+         print('6.SALIR.')
+         opcion = int(input("ELEGIR OPCION: "))
+        
+         
+         print("\n")
+
+
+         
+         database = connexionDB()
+         if opcion == 1:
+
+             agregar = ""
+             while agregar != "no":
+
+                   
+                     nombre = str(input('Digite su nombre: '))
+                     telefono = str(input('Diga cual es su Telefono: '))
+                     compañia =  str(input('Cual es la compañia de su telefono: '))
+                     direccion = str(input('Cual es su direccion: '))
+
+                     database.registro_repetido(nombre,telefono)
+                     if database.registro_repetido (nombre,telefono) == 1:
+                        return 2
+
+                     else:
+                         database.Agregar(id,nombre,telefono,compañia,direccion)
+
+                     agregar = input("DESEA AGREGAR OTRO REGISTRO(SI/NO)?: ")
+                     agregar.lower()
+           
+                 
+
+       
+         elif opcion == 2:
+             database.listar_contactos()
+             print("\n")
+
+
+         elif opcion == 3:
+            codigoid= (input('introduzca el id del Registro que desea ver: '))
+            print("\n")
+            database.Mostrar(codigoid)
+
+
+         elif opcion == 4:
+             
+                          
+             idcod = input('Digita id del registro a Actualizar: ')
+             database.Mostrar(idcod)
+             print("\n")
+             nombre = input(' Actualizar nombre: ')
+             telefono = input(' Actualizar Telefono: ')
+             
+             
+             database.Actualizar(nombre,telefono,idcod)
+            
+
+
+         elif opcion == 5:
+
+             codigo = str(input('INTRODUZCA EL ID DEL REGISTRO: '))
+             eliminar = database.Eliminar(codigo)
+           
+            
+             print("\n")
+
+
+         elif opcion == 6:
+             print("Adios!!!")
+
+         else:
+             print("OPCION NO VALIDA!!!")
+
+def precargar():
+     database = connexionDB()
+     print("bienvenidos a tu Agenda Telefonica, estos son los 10 contactos\n")
+     database.welcome_registro()
+
+
+
+precargar()
+menu_principal()
+
+SystemExit
